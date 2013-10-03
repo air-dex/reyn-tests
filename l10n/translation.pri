@@ -25,17 +25,15 @@
 #                                                                          #
 #--------------------------------------------------------------------------#
 
-TEMPLATE = subdirs
-
-OTHER_FILES = \
-	l10n/librt_en.ts \
-	l10n/librt_fr.ts
-
 #--------------#
 # Translations #
 #--------------#
 
-TRANSLATIONS = librt_en.ts librt_fr.ts
+TRANSLATIONS = reyntests_en.ts reyntests_fr.ts
+
+OTHER_FILES = \
+	l10n/reyntests_en.ts \
+	l10n/reyntests_fr.ts
 
 
 #---------------------#
@@ -46,12 +44,12 @@ TRANSLATIONS = librt_en.ts librt_fr.ts
 TR_FOLDER = $$system_path($${PWD}l10n/)
 
 # TS files
-FR_TS = $${TR_FOLDER}librt_fr.ts
-EN_TS = $${TR_FOLDER}librt_en.ts
+FR_TS = $${TR_FOLDER}reyntests_fr.ts
+EN_TS = $${TR_FOLDER}reyntests_en.ts
 
 # QM files
-FR_QM = $${TR_FOLDER}librt_fr.qm
-EN_QM = $${TR_FOLDER}librt_en.qm
+FR_QM = $${TR_FOLDER}reyntests_fr.qm
+EN_QM = $${TR_FOLDER}reyntests_en.qm
 QM_TRFILES = $${TR_FOLDER}*.qm
 
 # lupdate
@@ -63,8 +61,7 @@ LUPDATE_EN = $${LUPDATE_CMD} -ts $${EN_TS}
 trupdate.target = trupdate
 win32 {
 	trupdate.commands = ($${LUPDATE_FR}) & ($${LUPDATE_EN})
-}
-linux-g++ {
+} else:linux-g++ {
 	trupdate.commands = $${LUPDATE_FR} ; $${LUPDATE_EN}
 }
 
@@ -78,8 +75,7 @@ LRELEASE_EN = lrelease $${EN_TS}
 trrelease.target = trrelease
 win32 {
 	trrelease.commands = ($${LRELEASE_FR}) & ($${LRELEASE_EN})
-}
-linux-g++ {
+} else:linux-g++ {
 	trrelease.commands = $${LRELEASE_FR} ; $${LRELEASE_EN}
 }
 

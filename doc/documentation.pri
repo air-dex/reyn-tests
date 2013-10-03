@@ -25,22 +25,19 @@
 #                                                                          #
 #--------------------------------------------------------------------------#
 
-TEMPLATE = subdirs
-
 OTHER_FILES = \
 	doc/Doxyfile.txt \
+	doc/doxygen_log.txt \
 	doc/html/index.html
 
 #-----------------------#
 # Documentation targets #
 #-----------------------#
 
-# DOXYGEN_CMD is the Doxygen executable with its aboulute path
+# DOXYGEN_CMD is the Doxygen executable with its absoulute path
 win32 {
 	DOXYGEN_CMD = C:/Program Files/doxygen/bin/doxygen.exe
-}
-
-linux-g++ {
+} else:linux-g++ {
 	DOXYGEN_CMD = /usr/bin/doxygen
 }
 
