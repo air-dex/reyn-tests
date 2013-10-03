@@ -1,0 +1,23 @@
+{
+	"lorem": "ipsum",
+	"hl3_out": false,
+	"social": [
+		"facebook",
+		"twitter",
+		"youtube",
+		{
+			"network": "so.cl",
+			"owner": "Microsoft",
+			"known": false,
+			"known_less_than_identica": false,
+			"ballmer_years_at_micromou": 33
+		},
+		9
+	],
+	"ubuntu_next_lts": {
+		"name": "14.04",
+		"month": 4,
+		"year": 2014,
+		"sabdfl_boss": true
+	}
+}

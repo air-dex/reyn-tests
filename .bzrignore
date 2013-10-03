@@ -1,0 +1,10 @@
+libRT.pro.user*
+Makefile
+*/Makefile*
+build/*
+doc/html/*
+doc/indexLinux.html
+include/libRT/**/*.hpp
+include/libRT/base/**/
+include/libRT/*/requests
+lib/libRT*/*
