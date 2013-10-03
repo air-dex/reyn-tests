@@ -25,17 +25,15 @@
 #                                                                          #
 #--------------------------------------------------------------------------#
 
-QT           += core network webkitwidgets xml testlib
-QT           -= gui
+QT            = core testlib
 
-TARGET        = TestLibRT
+TARGET        = TestReynTests
 TEMPLATE      = app
 DESTDIR       = ../build
 
 CONFIG       *= console
 CONFIG       -= app_bundle
-CONFIG       += testcase
-CONFIG       += stl
+CONFIG       += testcase stl
 win32:CONFIG -= debug_and_release debug_and_release_target
 
 DEFINES      += SRCDIR=\\\"$$PWD/\\\"
@@ -49,15 +47,15 @@ MAKEFILE      = Makefile.tests
 # libRT library #
 #---------------#
 
-LIBRT_ROOT_FOLDER = $$system_path($$clean_path($${PWD}/../)/)
+REYN_TESTS_ROOT_FOLDER = $$system_path($$clean_path($${PWD}/../)/)
 
 debug {
-	LIBRT_LIB_FOLDER = $$system_path($${LIBRT_ROOT_FOLDER}lib/libRT_Debug/)
+	LIBRT_LIB_FOLDER = $$system_path($${REYN_TESTS_ROOT_FOLDER}lib/ReynTests_Debug/)
 } else:release {
-	LIBRT_LIB_FOLDER = $$system_path($${LIBRT_ROOT_FOLDER}lib/libRT/)
+	LIBRT_LIB_FOLDER = $$system_path($${REYN_TESTS_ROOT_FOLDER}lib/ReynTests/)
 }
 
-INCLUDEPATH   += $${LIBRT_ROOT_FOLDER}include
+INCLUDEPATH   += $${REYN_TESTS_ROOT_FOLDER}include
 LIBS          += -L$${LIBRT_LIB_FOLDER} -llibRT
 
 # Extra tasks
@@ -80,66 +78,5 @@ QMAKE_EXTRA_TARGETS += deployLib cleanLib
 # TODO : location of tests for third services
 
 HEADERS += \
-	testutils.hpp \
-	testresults.hpp \
-	testentity.hpp \
-	testcase.hpp \
-	testsuite.hpp \
-	base/parsers/jsonparsertests.hpp \
-	base/parsers/parserstests.hpp \
-	base/basetests.hpp \
-	librttests.hpp
 
 SOURCES += \
-	testutils.cpp \
-	testresults.cpp \
-	testentity.cpp \
-	testcase.cpp \
-	testsuite.cpp \
-	base/parsers/jsonparsertests.cpp \
-	base/parsers/parserstests.cpp \
-	base/basetests.cpp \
-	librttests.cpp \
-	testmain.cpp
-
-
-#-----------------------------------#
-# Files with mocked datas for tests #
-#-----------------------------------#
-
-# JSON parsing
-
-JSON_DATA_FOLDER= base/parsers/json_datas/
-
-JSON_DATA_FILES= \
-	$${JSON_DATA_FOLDER}bad_list_utf8.json \
-	$${JSON_DATA_FOLDER}bad_obj_utf8.json \
-	$${JSON_DATA_FOLDER}good_list_latin1.json \
-	$${JSON_DATA_FOLDER}good_list_utf8.json \
-	$${JSON_DATA_FOLDER}good_obj_utf8.json
-
-OTHER_FILES += $${JSON_DATA_FILES}
-
-# XML parsing
-
-# TODO : example files for XML parsing
-
-# HTML parsing
-
-# TODO : example files for HTML parsing
-
-# Query parsing
-
-# TODO : example files for Query parsing
-
-# Files for PEBKAC.fr
-
-# TODO : files with raw request results for PEBKAC.fr
-
-# Files for Twitter
-
-# TODO : files with raw request results for Twitter
-
-# Files for TwitLonger
-
-# TODO : files with raw request results for TwitLonger
