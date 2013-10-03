@@ -26,18 +26,41 @@
 
 #include <QString>
 #include "reyntests_global.hpp"
+#include "testresults.hpp"
+
+/// @def FAILED_TEST(testres)
+/// @brief Macros testing if a test failed. It increments the fail counter
+/// if necessary.
+/// @param testres Test resuls. <strong>Its type has to be TestResults.</strong>
+#define FAILED_TEST(testres) \
+	if (QTest::currentTestFailed()) { \
+		testres.failed++; \
+	}
+
+/// @def BONUS_FAIL(testres)
+/// @brief Macros testing if a test failed. It increments the fail counter
+/// if necessary.
+/// @param testres Test resuls. <strong>Its type has to be TestResults.</strong>
+#define BONUS_FAIL(testres) \
+	if (QTest::currentTestFailed()) { \
+		testres.bonusFails++; \
+	}
 
 namespace ReynTests {
-	/// @fn REYNTESTS_SHARED_EXPORT QByteArray findTestData(const QString namefile,
+	/// @fn REYNTESTS_SHARED_EXPORT QByteArray findTestData(TestResults & testres,
+	///														const QString namefile,
 	///														const QString errMsg);
 	/// @brief Finding datas in a file for a test.
 	///
 	/// The function performs checks on what it finds so the test will fail
 	/// if no datas are retrieved.
+	/// @param testres Test results, in order to take into account fails in
+	/// the function.
 	/// @param namefile Name of the file
 	/// @param errMsg Error message if datas are unexpectedly empty.
 	/// @return The file content.
-	REYNTESTS_SHARED_EXPORT QByteArray findTestData(const QString namefile,
+	REYNTESTS_SHARED_EXPORT QByteArray findTestData(TestResults & testres,
+													const QString namefile,
 													const QString errMsg);
 }
 

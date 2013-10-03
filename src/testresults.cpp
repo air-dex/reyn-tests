@@ -31,6 +31,7 @@ using ReynTests::TestResults;
 ReynTests::TestResults::TestResults() :
 	passed(0),
 	failed(0),
+	bonusFails(0),
 	skipped(0)
 {}
 
@@ -38,6 +39,7 @@ ReynTests::TestResults::TestResults() :
 TestResults & TestResults::operator+=(const TestResults & otherTest) {
 	passed += otherTest.passed;
 	failed += otherTest.failed;
+	bonusFails += otherTest.bonusFails;
 	skipped += otherTest.skipped;
 
 	return *this;
@@ -47,7 +49,7 @@ TestResults & TestResults::operator+=(const TestResults & otherTest) {
 QString TestResults::toString() const {
 	return QObject::trUtf8("%1 passed, %2 failed and %3 skipped").arg(
 				QString::number(passed),
-				QString::number(failed),
+				QString::number(failed + bonusFails),
 				QString::number(skipped)
 			);
 }

@@ -62,8 +62,15 @@ namespace {
 }
 
 // Finding datas in a file for a test.
-QByteArray ReynTests::findTestData(const QString namefile, const QString errMsg) {
+QByteArray ReynTests::findTestData(TestResults & testres,
+								   const QString namefile,
+								   const QString errMsg) {
 	QByteArray testDatas = "";
+
 	datatestFinder(testDatas, namefile, errMsg);
+
+	// Counting potential fails in datatestFinder
+	BONUS_FAIL(testres)
+
 	return testDatas;
 }

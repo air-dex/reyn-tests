@@ -52,13 +52,19 @@ namespace ReynTests {
 		QString toString() const;
 
 		/// @brief Number of tests that were successful.
-		uint passed;
+		int passed;
 
 		/// @brief Number of tests that failed.
-		uint failed;
+		int failed;
+
+		/// @brief Additional fails
+		///
+		/// This field can be incremented in non main test functions which uses
+		/// Qt Test macros
+		int bonusFails;
 
 		/// @brief Number of tests that were skipped.
-		uint skipped;
+		int skipped;
 	};
 }
 

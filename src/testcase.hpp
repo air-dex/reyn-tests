@@ -25,6 +25,11 @@
 #define TESTCASE_HPP
 
 #include "testentity.hpp"
+#include "testutils.hpp"
+
+/// @def FAIL_TEST()
+/// @brief Shorcut for FAILED_TEST with the value @c TestCase::testResults.
+#define FAIL_TEST() FAILED_TEST(testResults)
 
 /// @def RT_SKIP(description, testres)
 /// @brief Wrapping macro for skipping a test.

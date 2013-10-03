@@ -47,8 +47,11 @@ void ReynTestsTests::utilsTest() {
 		 << endl;
 	using ReynTests::findTestData;
 
+	TestResults doom;
+
 	cout << "\t\tTest with a right file which contains datas :" << endl;
-	QByteArray fileDatas = findTestData("../tests/datas/testfile.txt",
+	QByteArray fileDatas = findTestData(doom,
+										"../tests/datas/testfile.txt",
 										"Cannot find an existing file");
 	QCOMPARE(fileDatas.data(), "Raindrops!\n");
 
@@ -56,7 +59,9 @@ void ReynTestsTests::utilsTest() {
 	QEXPECT_FAIL("",
 				 "It should not find something which does not exist.",
 				 Continue);
-	fileDatas = findTestData("reyn.txt", "Something unknown was not found.");
+	fileDatas = findTestData(doom,
+							 "reyn.txt",
+							 "Something unknown was not found.");
 }
 
 // TestResult
@@ -67,21 +72,24 @@ void ReynTestsTests::resultsTest() {
 	t1.passed = 5;
 	t1.failed = 2;
 	t1.skipped = 1;
+	t1.bonusFails = 0;
 
 	TestResults t2;
 	t2.passed = 3;
 	t2.failed = 4;
 	t2.skipped = 2;
+	t1.bonusFails = 1;
 
 	t1 += t2;
-	QCOMPARE(int(t1.passed), 8);
-	QCOMPARE(int(t1.failed), 6);
-	QCOMPARE(int(t1.skipped), 3);
+	QCOMPARE(t1.passed, 8);
+	QCOMPARE(t1.failed, 6);
+	QCOMPARE(t1.skipped, 3);
+	QCOMPARE(t1.bonusFails, 1);
 
 
 	cout << "\tTesting QString toString() const; :" << endl;
 
-	QCOMPARE(t2.toString(), "3 passed, 4 failed and 2 skipped");
+	QCOMPARE(QTest::toString(t2.toString()), "3 passed, 4 failed and 2 skipped");
 }
 
 // TestCase

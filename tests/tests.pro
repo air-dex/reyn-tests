@@ -78,8 +78,7 @@ QMAKE_EXTRA_TARGETS += deployReynTests cleanReynTests
 # TODO : the tests, of course !
 
 HEADERS += \
-    reynteststests.hpp \
-    testclasses.hpp
+	reynteststests.hpp
 
 SOURCES += \
     reynteststests.cpp \

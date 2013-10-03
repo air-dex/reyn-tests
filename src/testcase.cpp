@@ -30,14 +30,6 @@ using std::endl;
 using ReynTests::TestCase;
 using ReynTests::TestEntity;
 
-/// @def FAILED_TEST()
-/// @brief Macros testing if a test failed. It increments the fail counter
-/// if necessary.
-#define FAILED_TEST() \
-	if (QTest::currentTestFailed()) { \
-		testResults.failed++; \
-	}
-
 // Constructor
 ReynTests::TestCase::TestCase() :
 	TestEntity(),
@@ -53,7 +45,7 @@ void TestCase::executeTests() {
 void TestCase::initTestCase() {
 	nbTests++;
 	setUpBeforeClass();
-	FAILED_TEST()
+	FAIL_TEST()
 }
 
 // initTestCase(); for derived classes.
@@ -72,7 +64,7 @@ void TestCase::setUp() {}
 // Cleans up a test
 void TestCase::cleanup() {
 	tearDown();
-	FAILED_TEST()
+	FAIL_TEST()
 }
 
 // cleanup(); for derived classes.
@@ -82,7 +74,7 @@ void TestCase::tearDown() {}
 void TestCase::cleanupTestCase() {
 	nbTests++;
 	tearDownAfterClass();
-	FAILED_TEST()
+	FAIL_TEST()
 
 	// How many tests were successful ?
 	testResults.passed = nbTests - testResults.failed - testResults.skipped;
