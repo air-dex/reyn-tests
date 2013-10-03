@@ -9,16 +9,16 @@ from sys import argv as argz
 from fnmatch import fnmatch as extmatch
 
 
-# Root of libRT project
-librtpath = os.getcwd()
+# Root of Reyn Tests project
+reyntestspath = os.getcwd()
 
 
 #------------------#
 # /include headers #
 #------------------#
 
-includepath = ospath.join(librtpath, "include", "libRT")
-srcpath = ospath.join(librtpath, "src")
+includepath = ospath.join(reyntestspath, "include", "ReynTests")
+srcpath = ospath.join(reyntestspath, "src")
 
 
 def isHeader(file):
@@ -28,58 +28,32 @@ def isHeader(file):
 
 
 def importAllHeaders():
-    """Imports all headers in includepath (/include/libRT/)"""
+    """Imports all headers in includepath"""
+    # Function to copy headers of a given folder
+    def copyHeader(folder, dst):
+        """Copies the content of folder into dst. dst might exist or not."""
+        # Creates dst if necessary
+        if not ospath.exists(dst):
+            os.mkdir(dst)
 
-    # Function to copy all the headers of a given service
-    def importHeaders(service):
-        """For headers imports of a given service"""
+        # Looking at what is inside the folder and copy each element
+        for dirContent in os.listdir(folder):
+            fullContentPath = ospath.join(folder, dirContent)
 
-        # Function to copy headers of a given folder
-        def copyHeader(folder, dst):
-            """Copies the content of folder into dst. dst might exist or not."""
-            # Creates dst if necessary
-            if not ospath.exists(dst):
-                os.mkdir(dst)
+            if ospath.isdir(fullContentPath):
+                # Directory : recursive call in the subfolder
+                newDst = ospath.join(dst, dirContent)
 
-            # Looking at what is inside the folder
-            contentList = os.listdir(folder)
+                if not ospath.exists(newDst):
+                    os.mkdir(newDst)
 
-            # Copy each element
-            for dirContent in contentList:
-                fullContentPath = ospath.join(folder, dirContent)
-
-                if ospath.isdir(fullContentPath):
-                    # Directory : recursive call in the subfolder
-                    newDst = ospath.join(dst, dirContent)
-
-                    if not ospath.exists(newDst):
-                        os.mkdir(newDst)
-
-                    copyHeader(fullContentPath, newDst)
-                elif isHeader(fullContentPath):
-                    # File is a header
-                    shutil.copy2(fullContentPath, dst)
-        # End copyHeader
-
-        # Copy .hpp headers
-        sourcesdir = ospath.join(srcpath, service)
-        includedir = ospath.join(includepath, service)
-
-        # The copy
-        copyHeader(sourcesdir, includedir)
-    # End importHeaders
-
-    # For Base imports
-    importHeaders("base")
-
-    # For Pebkac.fr imports
-    importHeaders("pebkacfr")
-
-    # For Twitter imports
-    importHeaders("twitter")
-
-    # For TwitLonger imports
-    importHeaders("twitlonger")
+                copyHeader(fullContentPath, newDst)
+            elif isHeader(fullContentPath):
+                # File is a header
+                shutil.copy2(fullContentPath, dst)
+    # End copyHeader
+    
+    copyHeader(srcpath, includepath)
 # End importAllHeaders
 
 
@@ -88,9 +62,7 @@ def removeHeaders():
     # Function to remove all the headers
     def removeDirHeaders(folder):
         """Remove headers in a folder"""
-        folderContent = [ospath.join(folder, folderElt) for folderElt in os.listdir(folder)]
-    
-        for folderElt in folderContent:
+        for folderElt in [ospath.join(folder, elt) for elt in os.listdir(folder)]:
             if ospath.isdir(folderElt):
                 # Remove headers of this folder
                 removeDirHeaders(folderElt)
@@ -99,7 +71,7 @@ def removeHeaders():
                 os.remove(folderElt)
     
         # If the folder is now empty, delete it
-        if len(os.listdir(folder)) == 0:
+        if os.listdir(folder) == []:
             os.rmdir(folder)
     # End removeDirHeaders
     
@@ -112,16 +84,14 @@ def removeHeaders():
 #-----------------------#
 
 def removeDoc():
-    """Removes Doxygen documentation"""
-    docDir = ospath.join(librtpath, "doc")
+    """Removes Doxygen documentation."""
+    docDir = ospath.join(reyntestspath, "doc")
 
     def removeFormat(doxygenFormat):
         """Removes all the doc for a given format"""
         formatDir = ospath.join(docDir, doxygenFormat)
 
-        formatDirContent = [ospath.join(formatDir, elt) for elt in os.listdir(formatDir)]
-
-        for folderElt in formatDirContent:
+        for folderElt in [ospath.join(formatDir, elt) for elt in os.listdir(formatDir)]:
             if ospath.isdir(folderElt):
                 shutil.rmtree(folderElt, ignore_errors=True)
             elif ospath.isfile(folderElt):
@@ -130,7 +100,6 @@ def removeDoc():
 
     # Remove HTML
     removeFormat("html")
-
 # End removeDoc
 
 
@@ -138,10 +107,10 @@ def removeDoc():
 # Translations #
 #--------------#
 
-l10nPath = ospath.join(librtpath, "l10n")
+l10nPath = ospath.join(reyntestspath, "l10n")
 libPath = {
-	"debug": ospath.join(librtpath, "lib", "libRT_Debug"),
-	"release": ospath.join(librtpath, "lib", "libRT"),
+	"debug": ospath.join(reyntestspath, "lib", "ReynTests_Debug"),
+	"release": ospath.join(reyntestspath, "lib", "ReynTests"),
 }
 
 def isQMFile(l10nFile):
@@ -162,10 +131,10 @@ def deployL10N():
 
 def cleanL10N():
     """Removes .qm files"""
-    # QM files in /lib/libRT_Debug
+    # QM files in /lib/ReynTests_Debug
     [os.remove(ospath.join(libPath["debug"], qmFile)) for qmFile in os.listdir(libPath["debug"]) if isQMFile(qmFile)]
     
-    # QM files in /lib/libRT
+    # QM files in /lib/ReynTests
     [os.remove(ospath.join(libPath["release"], qmFile)) for qmFile in os.listdir(libPath["release"]) if isQMFile(qmFile)]
 
     # QM files in /l10n
@@ -173,11 +142,11 @@ def cleanL10N():
 # End deployL10N
 
 
-#-------------------------------------------------------#
-# LibRT shared library in the /build folder (for tests) #
-#-------------------------------------------------------#
+#------------------------------------------------------------#
+# Reyn Tests shared library in the /build folder (for tests) #
+#------------------------------------------------------------#
 
-buildPath = ospath.join(librtpath, "build")
+buildPath = ospath.join(reyntestspath, "build")
 
 def isLibFile(libFile):
     """Is this file a libfile"""
@@ -190,12 +159,12 @@ def isLibFile(libFile):
 # End isLibFile
 
 def deployLib(*args):
-    """Deploying the LibRT shared library in the executable folder."""
+    """Deploying the Reyn Tests shared library in the executable folder."""
     if args != []:
         buildmode = args[0]
         [shutil.copy2(ospath.join(libPath[buildMode], libFile), buildPath) for libFile in os.listdir(libPath[buildMode]) if isLibFile(libFile)]
     else:
-        print("Usage : [python] build/builinclude.py deployLibRT debug|release")
+        print("Usage : [python] build/builinclude.py deployReynTests debug|release")
 # End deployLib
 
 
@@ -214,7 +183,7 @@ def skullcrush():
     # /build content
     for buildContent in [ospath.join(buildPath, buildFile) for buildFile in os.listdir(buildPath)]:
         if ospath.isdir(buildContent):
-            shutil.rmtree(buildContent)
+            shutil.rmtree(buildContent, ignore_errors=True)
         else:
             os.remove(buildContent)
     
@@ -224,9 +193,9 @@ def skullcrush():
     removeDoc()
     
     # Makefiles
-    os.remove(ospath.join(librtpath, "src", "Makefile.sources"))
-    os.remove(ospath.join(librtpath, "tests", "Makefile.tests"))
-    os.remove(ospath.join(librtpath, "Makefile"))
+    os.remove(ospath.join(reyntestspath, "src", "Makefile.sources"))
+    os.remove(ospath.join(reyntestspath, "tests", "Makefile.tests"))
+    os.remove(ospath.join(reyntestspath, "Makefile"))
 # End skullcrush
 
 
@@ -236,14 +205,14 @@ def skullcrush():
 
 # Actions that can be made by the script
 actionz = {
-    "copyHeaders":  importAllHeaders,   # Copy headers in /include folder
-    "cleanHeaders": removeHeaders,      # Remove headers in /include folder
-    "cleanDoc":     removeDoc,          # Clean Doxygen documentation
-    "l10nDeploy":   deployL10N,         # Deploy *.qm translation binaries
-    "l10nClean":    cleanL10N,          # Removes *.qm translation binaries
-    "deployLibRT":  deployLib,          # Deploys LibRT in the executable directory. Takes the build mode (debug or release) as argument
-    "cleanLibRT":   cleanLib,           # Cleans LibRT shared libraries (.so or .dll) in the executable directory.
-    "crush":        skullcrush          # Erases all the stuff generated by qmake and make.
+    "copyHeaders":     importAllHeaders, # Copy headers in /include folder
+    "cleanHeaders":    removeHeaders,    # Remove headers in /include folder
+    "cleanDoc":        removeDoc,        # Clean Doxygen documentation
+    "l10nDeploy":      deployL10N,       # Deploy *.qm translation binaries
+    "l10nClean":       cleanL10N,        # Removes *.qm translation binaries
+    "deployReynTests": deployLib,        # Deploys ReynTests in the /build directory. Takes the build mode (debug or release) as argument
+    "cleanReynTests":  cleanLib,         # Cleans Reyn Tests shared libraries (.so or .dll) in the executable directory.
+    "crush":           skullcrush        # Erases all the stuff generated by qmake and make.
 }
 
 def main():

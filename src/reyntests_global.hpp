@@ -1,5 +1,5 @@
-/// @file testentity.cpp
-/// @brief Implementation of TestEntity.
+/// @file reyntests_global.hpp
+/// @brief Definition of REYNTESTS_SHARED_EXPORT for library export.
 /// @author Romain Ducher
 ///
 /// @copyright 2013 Romain Ducher
@@ -21,15 +21,19 @@
 /// You should have received a copy of the GNU Lesser General Public License
 /// along with Reyn Tests. If not, see <http://www.gnu.org/licenses/>.
 
-#include "testentity.hpp"
+#ifndef REYNTESTS_GLOBAL_HPP
+#define REYNTESTS_GLOBAL_HPP
 
-// Constructor
-TestEntity::TestEntity() :
-	QObject(),
-	testResults()
-{}
+#include <QtGlobal>
 
-// Getting test results
-TestResults TestEntity::getTestResults() const {
-	return testResults;
-}
+#ifdef REYNTESTS_LIBRARY
+#define REYNTESTS_SHARED_EXPORT Q_DECL_EXPORT
+#else
+#define REYNTESTS_SHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+/// @namespace ReynTests
+/// @brief General namespace for stuff related to Reyn Tests.
+namespace ReynTests {}
+
+#endif // REYNTESTS_GLOBAL_HPP

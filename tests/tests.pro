@@ -1,27 +1,27 @@
-#------------------------------------------#
-# tests.pri                                #
-# .pri Qt sub-project file for libRT tests #
-# Author : Romain Ducher                   #
-#------------------------------------------#
+#-----------------------------------------------#
+# tests.pro                                     #
+# .pri Qt sub-project file for Reyn Tests tests #
+# Author : Romain Ducher                        #
+#-----------------------------------------------#
 
 #--------------------------------------------------------------------------#
 #                                                                          #
 # Copyright 2013 Romain Ducher                                             #
 #                                                                          #
-# This file is part of libRT.                                              #
+# This file is part of Reyn Tests.                                         #
 #                                                                          #
-# libRT is free software: you can redistribute it and/or modify it under   #
-# the terms of the GNU Lesser General Public License as published by       #
+# Reyn Tests is free software: you can redistribute it and/or modify it    #
+# under the terms of the GNU Lesser General Public License as published by #
 # the Free Software Foundation, either version 3 of the License, or        #
 # (at your option) any later version.                                      #
 #                                                                          #
-# libRT is distributed in the hope that it will be useful,                 #
+# Reyn Tests is distributed in the hope that it will be useful,            #
 # but WITHOUT ANY WARRANTY; without even the implied warranty of           #
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the             #
 # GNU Lesser General Public License for more details.                      #
 #                                                                          #
 # You should have received a copy of the GNU Lesser General Public License #
-# along with libRT. If not, see <http://www.gnu.org/licenses/>.            #
+# along with Reyn Tests. If not, see <http://www.gnu.org/licenses/>.       #
 #                                                                          #
 #--------------------------------------------------------------------------#
 
@@ -43,39 +43,38 @@ OBJECTS_DIR   = ../build/obj/tests/
 MAKEFILE      = Makefile.tests
 
 
-#---------------#
-# libRT library #
-#---------------#
+#--------------------#
+# Reyn Tests library #
+#--------------------#
 
-REYN_TESTS_ROOT_FOLDER = $$system_path($$clean_path($${PWD}/../)/)
+REYNTESTS_ROOT_FOLDER = $$system_path($$clean_path($${PWD}/../)/)
 
 debug {
-	LIBRT_LIB_FOLDER = $$system_path($${REYN_TESTS_ROOT_FOLDER}lib/ReynTests_Debug/)
+	REYNTESTS_LIB_FOLDER = $$system_path($${REYNTESTS_ROOT_FOLDER}lib/ReynTests_Debug/)
 } else:release {
-	LIBRT_LIB_FOLDER = $$system_path($${REYN_TESTS_ROOT_FOLDER}lib/ReynTests/)
+	REYNTESTS_LIB_FOLDER = $$system_path($${REYNTESTS_ROOT_FOLDER}lib/ReynTests/)
 }
 
-INCLUDEPATH   += $${REYN_TESTS_ROOT_FOLDER}include
-LIBS          += -L$${LIBRT_LIB_FOLDER} -llibRT
+INCLUDEPATH   += $${REYNTESTS_ROOT_FOLDER}include
+LIBS          += -L$${REYNTESTS_LIB_FOLDER} -lReynTests
 
 # Extra tasks
 
 include(../pythondef.pri)
 
 # Deploying it in build folder for tests execution
-deployLib.target = deployLib
-debug:deployLib.commands = $${PYTHON_SCRIPT_CMD} deployLib debug
-release:deployLib.commands = $${PYTHON_SCRIPT_CMD} deployLib release
+deployReynTests.target = deployReynTests
+debug:deployReynTests.commands = $${PYTHON_SCRIPT_CMD} deployReynTests debug
+release:deployReynTests.commands = $${PYTHON_SCRIPT_CMD} deployReynTests release
 
 # Cleaning the library
-cleanLib.target = cleanLib
-cleanLib.commands = $${PYTHON_SCRIPT_CMD} cleanLibRT
+cleanReynTests.target = cleanReynTests
+cleanReynTests.commands = $${PYTHON_SCRIPT_CMD} cleanReynTests
 
-QMAKE_EXTRA_TARGETS += deployLib cleanLib
+QMAKE_EXTRA_TARGETS += deployReynTests cleanReynTests
 
 
 # TODO : the tests, of course !
-# TODO : location of tests for third services
 
 HEADERS += \
 
