@@ -34,6 +34,7 @@ DESTDIR       = ../build
 CONFIG       *= console
 CONFIG       -= app_bundle
 CONFIG       += testcase stl
+CONFIG       += debug
 win32:CONFIG -= debug_and_release debug_and_release_target
 
 DEFINES      += SRCDIR=\\\"$$PWD/\\\"
@@ -77,5 +78,12 @@ QMAKE_EXTRA_TARGETS += deployReynTests cleanReynTests
 # TODO : the tests, of course !
 
 HEADERS += \
+    reynteststests.hpp \
+    testclasses.hpp
 
 SOURCES += \
+    reynteststests.cpp \
+    testmain.cpp
+
+OTHER_FILES += \
+    datas/testfile.txt

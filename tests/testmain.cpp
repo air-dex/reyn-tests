@@ -1,5 +1,5 @@
-/// @file testsuite.cpp
-/// @brief Implementation of TestSuite
+/// @file testmain.cpp
+/// @brief Main function for tests.
 /// @author Romain Ducher
 ///
 /// @copyright 2013 Romain Ducher
@@ -21,37 +21,7 @@
 /// You should have received a copy of the GNU Lesser General Public License
 /// along with Reyn Tests. If not, see <http://www.gnu.org/licenses/>.
 
-#include "testsuite.hpp"
+#include <QtTest>
+#include "reynteststests.hpp"
 
-using ReynTests::TestSuite;
-using ReynTests::TestEntity;
-using ReynTests::TestEntityPointer;
-
-// Constructor
-ReynTests::TestSuite::TestSuite() :
-	TestEntity(),
-	QLinkedList<TestEntityPointer>()
-{}
-
-// Appends a test entity in the list
-TestSuite * TestSuite::appendTestEntity(TestEntity * entity) {
-	if (entity != 0) {
-		TestEntityPointer newTest(entity);
-		this->append(newTest);
-	}
-
-	return this;
-}
-
-// Exeuting tests
-void TestSuite::executeTests() {
-	for (TestSuite::const_iterator it = begin(); it != end(); ++it) {
-		// Executing entity tests if this last is not NULL.
-		TestEntityPointer test = *it;
-
-		if (test) {
-			test->executeTests();
-			testResults += test->getTestResults();
-		}
-	}
-}
+QTEST_MAIN(ReynTestsTests)

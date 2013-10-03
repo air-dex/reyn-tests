@@ -22,11 +22,13 @@
 /// along with Reyn Tests. If not, see <http://www.gnu.org/licenses/>.
 
 #include "testcase.hpp"
+#include <iostream>
 #include <QtTest>
 
-#include <iostream>
 using std::cout;
 using std::endl;
+using ReynTests::TestCase;
+using ReynTests::TestEntity;
 
 /// @def FAILED_TEST()
 /// @brief Macros testing if a test failed. It increments the fail counter
@@ -37,7 +39,7 @@ using std::endl;
 	}
 
 // Constructor
-TestCase::TestCase() :
+ReynTests::TestCase::TestCase() :
 	TestEntity(),
 	nbTests(0)
 {}

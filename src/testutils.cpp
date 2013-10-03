@@ -26,13 +26,6 @@
 #include <QtTest>
 #include <QFile>
 
-// Finding datas in a file for a test.
-QByteArray findTestData(const QString namefile, const QString errMsg) {
-	QByteArray testDatas = "";
-	datatestFinder(testDatas, namefile, errMsg);
-	return testDatas;
-}
-
 // Internal functions
 namespace {
 	/// @fn void datatestFinder(QByteArray & testDatas,
@@ -45,7 +38,10 @@ namespace {
 	/// @param testDatas Datas retrieved by the Qt Test's @c QFINDTESTDATA macro.
 	/// @param namefile Name of the file.
 	/// @param errMsg Error message if datas are unexpectedly empty.
-	void datatestFinder(QByteArray & testDatas, const QString namefile, const QString errMsg) {
+	void datatestFinder(QByteArray & testDatas,
+						const QString namefile,
+						const QString errMsg)
+	{
 		QString nameTestfile = QFINDTESTDATA(namefile);
 
 		QVERIFY2(!nameTestfile.isEmpty(),
@@ -59,7 +55,15 @@ namespace {
 			testDatas = file.readAll();
 			file.close();
 		} else {
-			QFAIL(QTest::toString(errMsg));
+			QWARN(QTest::toString(errMsg));
+			testDatas = "";
 		}
 	}
+}
+
+// Finding datas in a file for a test.
+QByteArray ReynTests::findTestData(const QString namefile, const QString errMsg) {
+	QByteArray testDatas = "";
+	datatestFinder(testDatas, namefile, errMsg);
+	return testDatas;
 }

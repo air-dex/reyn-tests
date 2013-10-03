@@ -25,8 +25,10 @@
 
 #include <QObject>
 
+using ReynTests::TestResults;
+
 // Constructor
-TestResults::TestResults() :
+ReynTests::TestResults::TestResults() :
 	passed(0),
 	failed(0),
 	skipped(0)
@@ -42,7 +44,7 @@ TestResults & TestResults::operator+=(const TestResults & otherTest) {
 }
 
 // QString version of results.
-QString TestResults::toString() {
+QString TestResults::toString() const {
 	return QObject::trUtf8("%1 passed, %2 failed and %3 skipped").arg(
 				QString::number(passed),
 				QString::number(failed),

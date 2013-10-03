@@ -23,8 +23,11 @@
 
 #include "testentity.hpp"
 
+using ReynTests::TestResults;
+using ReynTests::TestEntity;
+
 // Constructor
-TestEntity::TestEntity() :
+ReynTests::TestEntity::TestEntity() :
 	QObject(),
 	testResults()
 {}
