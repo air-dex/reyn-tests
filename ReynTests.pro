@@ -93,11 +93,16 @@ QMAKE_EXTRA_TARGETS += crush
 #-------------#
 
 OTHER_FILES += \
-	.bzrignore \
+	.gitignore \
+	build/.gitkeep \
 	extratargetscripts.py \
 	pythondef.pri \
 	doc/documentation.pri \
+	doc/html/.gitkeep \
 	l10n/translation.pri \
+	lib/ReynTests/.gitkeep \
+	lib/ReynTests_Debug/.gitkeep \
+	README.md \
 	src/sources.pro \
 	tests/tests.pro
 

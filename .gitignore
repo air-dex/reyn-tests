@@ -2,7 +2,11 @@ ReynTests.pro.user*
 Makefile
 */Makefile*
 build/*
+!build/.gitkeep
 doc/html/*
+!doc/html/.gitkeep
 doc/indexLinux.html
 include/ReynTests/*.hpp
 lib/ReynTests*/*
+!lib/ReynTests/.gitkeep
+!lib/ReynTests_Debug/.gitkeep
